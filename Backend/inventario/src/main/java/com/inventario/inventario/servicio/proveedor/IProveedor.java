@@ -6,6 +6,7 @@ import com.inventario.inventario.DTO.proveedor.ObtenerProveedor;
 import com.inventario.inventario.modelo.compra.Proveedor;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProveedor {
 
@@ -13,9 +14,9 @@ public interface IProveedor {
 
     public ObtenerProveedor crearProveedor(CrearProveedor proveedor);
 
-    public ActualizarProveedor actualizarProveedor(String email, ActualizarProveedor proveedor);
+    public ObtenerProveedor actualizarProveedor(String email, ActualizarProveedor proveedor);
 
     public ObtenerProveedor buscarProveedorPorEmail(String email);
 
-    void eliminarProveedorPorEmail(String email);
+    public Proveedor eliminarProveedorPorEmail(String email);
 }

@@ -5,11 +5,13 @@ import com.inventario.inventario.DTO.proveedor.ActualizarProveedor;
 import com.inventario.inventario.DTO.proveedor.CrearProveedor;
 import com.inventario.inventario.DTO.proveedor.ObtenerProveedor;
 import com.inventario.inventario.modelo.compra.Proveedor;
-import com.inventario.inventario.repositorio.ProveedorRepositorio;
+import com.inventario.inventario.repositorio.RepositorioProveedor;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioProveedor implements IProveedor {
@@ -17,10 +19,10 @@ public class ServicioProveedor implements IProveedor {
 
     //estamos inyectando la dependencia mediante la utilizacion de un constructor
 
-    private final ProveedorRepositorio proveedorRepositorio;
+    private final RepositorioProveedor repositorioProveedor;
 
-    public ServicioProveedor(ProveedorRepositorio proveedorRepositorio) {
-        this.proveedorRepositorio = proveedorRepositorio;
+    public ServicioProveedor(RepositorioProveedor repositorioProveedor) {
+        this.repositorioProveedor = repositorioProveedor;
     }
 
     private ObtenerProveedor convertirAObtenerProveedorDTO(Proveedor proveedor) {
@@ -35,7 +37,7 @@ public class ServicioProveedor implements IProveedor {
 
     @Override
     public List<ObtenerProveedor> listarProveedores() {
-        return proveedorRepositorio.findAll()
+        return repositorioProveedor.findAll()
                 .stream()
                 .map(this::convertirAObtenerProveedorDTO)
                 .toList();
@@ -49,12 +51,12 @@ public class ServicioProveedor implements IProveedor {
         nuevoProveedor.setEmail(proveedor.getEmail());
         nuevoProveedor.setFechaCreacion(LocalDateTime.now());
 
-        proveedorRepositorio.save(nuevoProveedor);
+        repositorioProveedor.save(nuevoProveedor);
 
         ObtenerProveedor respuesta = new ObtenerProveedor();
 
         respuesta.setNombre(nuevoProveedor.getNombre());
-        respuesta.setEmail(nuevoProveedor.getNombre());
+        respuesta.setEmail(nuevoProveedor.getEmail());
         respuesta.setFechaCreacion(nuevoProveedor.getFechaCreacion());
 
         return respuesta;
@@ -62,17 +64,47 @@ public class ServicioProveedor implements IProveedor {
     }
 
     @Override
-    public ActualizarProveedor actualizarProveedor(String email, ActualizarProveedor proveedor) {
-        return null;
+    public ObtenerProveedor actualizarProveedor(String email, ActualizarProveedor proveedor) {
+
+        Proveedor buscar = repositorioProveedor.findProveedorByEmail(email).orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con email: " + email));
+
+        buscar.setNombre(proveedor.getNombre());
+        repositorioProveedor.save(buscar);
+
+
+        ObtenerProveedor respuesta = new ObtenerProveedor();
+
+        respuesta.setNombre(buscar.getNombre());
+        respuesta.setEmail(buscar.getEmail());
+        respuesta.setFechaCreacion(buscar.getFechaCreacion());
+
+        return respuesta;
+
     }
 
     @Override
     public ObtenerProveedor buscarProveedorPorEmail(String email) {
-        return null;
+
+        Proveedor buscar = repositorioProveedor.findProveedorByEmail(email).orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con email: " + email));
+
+        ObtenerProveedor proveedorEncontrado = new ObtenerProveedor();
+
+        proveedorEncontrado.setNombre(buscar.getNombre());
+        proveedorEncontrado.setEmail(buscar.getEmail());
+        proveedorEncontrado.setFechaCreacion(buscar.getFechaCreacion());
+
+        return proveedorEncontrado;
     }
 
     @Override
-    public void eliminarProveedorPorEmail(String email) {
+    public Proveedor eliminarProveedorPorEmail(String email) {
+        Proveedor proveedor = repositorioProveedor
+                .findProveedorByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado con email: " + email));
 
+        repositorioProveedor.delete(proveedor);
+
+        return proveedor;
     }
+
 }

@@ -23,7 +23,7 @@ public class Proveedor {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @CreationTimestamp
