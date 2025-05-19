@@ -27,6 +27,6 @@ public class Proveedor {
     private String email;
 
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(name = "fecha_creacion",updatable = false)
     private LocalDateTime fechaCreacion;
 }

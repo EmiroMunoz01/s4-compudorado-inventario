@@ -2,6 +2,14 @@ package com.inventario.inventario.repositorio;
 
 import com.inventario.inventario.modelo.compra.Proveedor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProveedorRepositorio extends JpaRepository<Long, Proveedor> {
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ProveedorRepositorio extends JpaRepository<Proveedor, Long> {
+
+    Optional<Proveedor> findProveedorByEmail(String email);
+
 }
