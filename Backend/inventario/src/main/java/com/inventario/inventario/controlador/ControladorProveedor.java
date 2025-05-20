@@ -44,7 +44,7 @@ public class ControladorProveedor {
 
 
     @PutMapping("/actualizar/{email}")
-    public ResponseEntity<?> actualizarProveedor( @PathVariable String email, @Valid ActualizarProveedor proveedor){
+    public ResponseEntity<?> actualizarProveedor( @PathVariable String email, @Valid @RequestBody ActualizarProveedor proveedor){
         return ResponseEntity.status(HttpStatus.OK).body(servicioProveedor.actualizarProveedor(email,proveedor));
     }
 

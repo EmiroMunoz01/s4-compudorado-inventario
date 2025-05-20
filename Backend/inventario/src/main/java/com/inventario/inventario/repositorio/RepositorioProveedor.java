@@ -12,6 +12,6 @@ public interface RepositorioProveedor extends JpaRepository<Proveedor, Long> {
 
     Optional<Proveedor> findProveedorByEmail(String email);
 
-    void deleteByEmail(String email);
+
 
 }

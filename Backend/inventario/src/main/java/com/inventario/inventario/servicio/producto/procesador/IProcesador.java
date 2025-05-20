@@ -18,7 +18,7 @@ public interface IProcesador {
 
     public ObtenerProcesador crearProcesador(CrearProcesador crearProcesador);
 
-    public ActualizarProcesador actualizarProcesador(String sku, ActualizarProcesador procesador);
+    public ObtenerProcesador actualizarProcesador(String sku, ActualizarProcesador procesador);
 
     public Procesador eliminarProcesadorPorSKU(String sku);
 }
