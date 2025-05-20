@@ -1,12 +1,15 @@
 package com.inventario.inventario.modelo.producto;
 
+import com.inventario.inventario.modelo.producto.enums.ProductoMarca;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
@@ -14,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "productos")
+@Table(name = "producto")
 public abstract class Producto {
 
     @Id
@@ -27,10 +30,15 @@ public abstract class Producto {
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "marca", nullable = false)
-    private String marca;
+    private ProductoMarca marca;
 
     @Column(name = "sku", nullable = false, unique = true, length = 50)
     private String sku; // Código único del producto
+
+    @CreationTimestamp
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
 
 }
