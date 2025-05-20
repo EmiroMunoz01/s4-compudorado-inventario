@@ -1,8 +1,7 @@
-package com.inventario.inventario.DTO.producto.procesador;
+package com.inventario.inventario.DTO.producto.ram;
 
-import com.inventario.inventario.modelo.producto.enums.ProcesadorSocket;
 import com.inventario.inventario.modelo.producto.enums.ProductoMarca;
-import jakarta.validation.constraints.Email;
+import com.inventario.inventario.modelo.producto.enums.RAMTecnologia;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ObtenerProcesador {
+public class ObtenerRAM {
 
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 4, message = "El nombre debe tener al menos 4 caracteres")
@@ -30,8 +29,14 @@ public class ObtenerProcesador {
     @Size(min = 4, message = "El sku debe tener al menos 4 caracteres")
     private String sku; // Código único del producto
 
-    @NotNull(message = "El socket no puede estar vacío")
-    private ProcesadorSocket socketProcesador;
+    @NotNull(message = "La capacidad no puede estar vacía")
+    private int capacidad;
+
+    @NotNull(message = "La velocidad no puede estar vacía")
+    private Double velocidad;
+
+    @NotNull(message = "La tecnologiaRAM no puede estar vacía")
+    private RAMTecnologia tecnologiaRAM;
 
     private LocalDateTime fechaCreacion;
 

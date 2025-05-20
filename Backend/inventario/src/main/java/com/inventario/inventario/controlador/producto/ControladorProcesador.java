@@ -19,7 +19,6 @@ public class ControladorProcesador {
         this.servicioProcesador = servicioProcesador;
     }
 
-
     @GetMapping("/listar")
     public ResponseEntity<?> listarProcesador() {
         return ResponseEntity.ok(servicioProcesador.listarTodosProcesadores());
@@ -35,7 +34,6 @@ public class ControladorProcesador {
         return ResponseEntity.ok(servicioProcesador.listarProcesadoresPorNombre(nombre));
     }
 
-
     @PostMapping("/crear")
     public ResponseEntity<?> crearProcesador(@Valid @RequestBody CrearProcesador crearProcesador) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicioProcesador.crearProcesador(crearProcesador));
@@ -46,11 +44,9 @@ public class ControladorProcesador {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(servicioProcesador.eliminarProcesadorPorSKU(sku));
     }
 
-
     @PutMapping("/actualizar/{sku}")
     public ResponseEntity<?> actualizarProcesador(@PathVariable String sku, @Valid @RequestBody ActualizarProcesador Procesador) {
         return ResponseEntity.status(HttpStatus.OK).body(servicioProcesador.actualizarProcesador(sku, Procesador));
     }
-
 
 }
